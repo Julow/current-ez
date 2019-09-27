@@ -1,0 +1,4 @@
+(executable
+ (public_name current_ez)
+ (name main)
+ (libraries current current_docker current_git current_web cmdliner))
