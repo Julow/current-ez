@@ -8,6 +8,7 @@ let main config mode repo =
   let engine =
     Current.Engine.create ~config (fun () -> Pipeline.v ~repo desc)
   in
+  Lwt_main.run @@
   Lwt.choose [ Current.Engine.thread engine; Current_web.run ~mode engine ]
 
 (* Cli *)
@@ -19,6 +20,7 @@ let repo =
     value & pos 0 (some dir) None & info ~doc:"The repository" ~docv:"DIR" [])
 
 let () =
+  Logging.init ();
   let open Term in
   exit @@ eval
   @@
