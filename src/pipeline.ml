@@ -17,6 +17,8 @@ let base_img ~ocaml_version =
     let+ base_img = opam_base in
     let open Dockerfile in
     from (Docker.Image.hash base_img)
+    @@ user "root"
+    @@ run "mkdir /ci && chown opam:opam /ci"
     @@ user "opam" @@ workdir "/ci"
     @@ run "opam switch create %s" ocaml_version
   in
