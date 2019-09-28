@@ -1,4 +1,5 @@
 (executable
  (public_name current_ez)
  (name main)
- (libraries current current_docker current_git current_web cmdliner fmt.cli fmt.tty logs.cli logs.fmt))
+ (libraries current current_docker current_git current_web cmdliner fmt.cli
+   fmt.tty logs.cli logs.fmt))

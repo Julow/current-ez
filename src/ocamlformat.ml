@@ -14,6 +14,7 @@ let docker_img ~ocamlformat_version ~repo base_img =
       let+ base_img = base_img in
       let open Dockerfile in
       from (Docker.Image.hash base_img)
+      @@ run "opam depext ocamlformat.%s" ocamlformat_version
       @@ run "opam install ocamlformat.%s" ocamlformat_version
     in
     Docker.build ~label:"ocamlformat" ~pull:false ~dockerfile `No_context
@@ -26,7 +27,7 @@ let docker_img ~ocamlformat_version ~repo base_img =
   Docker.build ~label:"ocamlformat checking" ~pull:false ~dockerfile
     (`Git repo)
 
-let ocamlformat_version = "v0.11.0"
+let ocamlformat_version = "0.11.0"
 
 (** [repo] is path to repository source locally
     Expect the base image to contains a clean opam switch and a clean working directory *)

@@ -8,8 +8,8 @@ let main config mode repo () =
   let engine =
     Current.Engine.create ~config (fun () -> Pipeline.v ~repo desc)
   in
-  Lwt_main.run @@
-  Lwt.choose [ Current.Engine.thread engine; Current_web.run ~mode engine ]
+  Lwt_main.run
+  @@ Lwt.choose [ Current.Engine.thread engine; Current_web.run ~mode engine ]
 
 (* Cli *)
 
@@ -24,5 +24,6 @@ let () =
   exit @@ eval
   @@
   let doc = "Easy ci" in
-  ( const main $ Current.Config.cmdliner $ Current_web.cmdliner $ repo $ Logging.cli,
+  ( const main $ Current.Config.cmdliner $ Current_web.cmdliner $ repo
+    $ Logging.cli,
     info "current-ez" ~doc )

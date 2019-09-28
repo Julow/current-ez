@@ -14,7 +14,7 @@ let base_img ~ocaml_version =
     let open Dockerfile in
     from (Docker.Image.hash base_img)
     @@ user "opam" @@ workdir "/ci"
-    @@ run "opam switch %s" ocaml_version
+    @@ run "opam switch create %s" ocaml_version
   in
   Docker.build ~label:"base image" ~pull:false ~dockerfile `No_context
 
