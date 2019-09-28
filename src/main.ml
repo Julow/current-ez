@@ -1,6 +1,12 @@
 (* Main *)
 
-let desc = Pipeline.{ ocamlformat = Ocamlformat.Dune; build = Build.Dune }
+let desc =
+  Pipeline.
+    {
+      ocamlformat = Ocamlformat.Dune;
+      build = Build.Dune;
+      runtest = Runtest.Dune;
+    }
 
 let main config mode repo () =
   let repo = match repo with Some d -> d | None -> Sys.getcwd () in
