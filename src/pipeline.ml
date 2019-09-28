@@ -4,7 +4,7 @@ module Docker = Current_docker.Default
 module Git = Current_git
 include Current.Syntax
 
-type desc = { ocamlformat : Ocamlformat.desc }
+type desc = { ocamlformat : Ocamlformat.desc; build : Build.desc }
 
 let base_img ~ocaml_version =
   let schedule = Current_cache.Schedule.v ~valid_for:(Duration.of_day 7) () in
@@ -22,5 +22,7 @@ let v ~repo desc =
   let ocaml_version = "4.08.1" in
   let base_img = base_img ~ocaml_version in
   let repo = Git.Local.head_commit repo in
+  let build_img = Build.v ~base_img ~repo desc.build in
   let ocamlformat = Ocamlformat.v ~base_img ~repo desc.ocamlformat in
-  Current.all (List.filter_map (fun x -> x) [ ocamlformat ])
+  let build = Some (Current.ignore_value build_img) in
+  Current.all (List.filter_map (fun x -> x) [ ocamlformat; build ])
